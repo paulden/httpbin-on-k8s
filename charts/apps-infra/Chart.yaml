@@ -2,6 +2,6 @@
 apiVersion: v2
 name: apps-infra
 description: >
-  Helm chart configuring main infrastructure resources: ArgoCD, Nginx ingress controller
+  Helm chart configuring main infrastructure resources: ArgoCD, Nginx ingress controller and cert-manager.
 type: application
 version: 0.1.0

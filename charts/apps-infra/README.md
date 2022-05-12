@@ -2,13 +2,15 @@
 
 ![Version: 0.1.0](https://img.shields.io/badge/Version-0.1.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square)
 
-Helm chart configuring main infrastructure resources: ArgoCD, Nginx ingress controller
+Helm chart configuring main infrastructure resources: ArgoCD, Nginx ingress controller and cert-manager.
 
 ## Values
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
 | argocd.namespace | string | `"argocd"` |  |
+| cert_manager.cluster_issuer_prod | string | `"letsencrypt-prod"` |  |
+| cert_manager.cluster_issuer_staging | string | `"letsencrypt-staging"` |  |
 | cert_manager.namespace | string | `"cert-manager"` |  |
 | global.dns | string | `"toto.com"` |  |
 | global.registry.gcr | string | `"gcr.io"` |  |

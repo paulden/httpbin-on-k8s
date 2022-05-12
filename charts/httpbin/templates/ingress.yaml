@@ -4,6 +4,8 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: {{ template "httpbin.fullname" . }}
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
   labels:
     app: {{ template "httpbin.fullname" . }}
 spec:
@@ -19,4 +21,8 @@ spec:
                 name: {{ template "httpbin.fullname" . }}
                 port:
                   name: http
+  tls:
+    - hosts:
+        - "{{ .Values.ingress.host }}"
+      secretName: httpbin-tls
 {{- end }}

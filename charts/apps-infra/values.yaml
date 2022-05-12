@@ -18,3 +18,5 @@ ingress:
 
 cert_manager:
   namespace: cert-manager
+  cluster_issuer_staging: letsencrypt-staging
+  cluster_issuer_prod: letsencrypt-prod

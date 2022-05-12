@@ -36,7 +36,7 @@ spec:
             - /argocd
           ingress:
             annotations:
-              cert-manager.io/cluster-issuer: "letsencrypt-prod"
+              cert-manager.io/cluster-issuer: {{ .Values.cert_manager.cluster_issuer_prod }}
             ingressClassName: nginx
             enabled: true
             paths:
