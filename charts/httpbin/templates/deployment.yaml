@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ template "httpbin.fullname" . }}
+  namespace: {{ .Values.namespace }}
   labels:
     app: {{ template "httpbin.name" . }}
     chart: {{ template "httpbin.chart" . }}
@@ -29,8 +30,7 @@ spec:
               containerPort: 80
               protocol: TCP
           livenessProbe:
-            httpGet:
-              path: /
+            tcpSocket:
               port: http
           readinessProbe:
             httpGet:
