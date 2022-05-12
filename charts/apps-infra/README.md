@@ -9,9 +9,11 @@ Helm chart configuring main infrastructure resources: ArgoCD, Nginx ingress cont
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
 | argocd.namespace | string | `"argocd"` |  |
+| cert_manager.namespace | string | `"cert-manager"` |  |
 | global.dns | string | `"toto.com"` |  |
 | global.registry.gcr | string | `"gcr.io"` |  |
 | global.repositories.argocd | string | `"https://argoproj.github.io/argo-helm"` |  |
+| global.repositories.cert_manager | string | `"https://charts.jetstack.io"` |  |
 | global.repositories.nginx | string | `"https://kubernetes.github.io/ingress-nginx"` |  |
 | global.revision | string | `"master"` |  |
 | ingress.namespace | string | `"ingress-nginx"` |  |

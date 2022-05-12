@@ -1,0 +1,25 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: cert-manager
+  namespace: "{{ .Values.argocd.namespace }}"
+  finalizers:
+  - resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    namespace: "{{ .Values.cert_manager.namespace }}"
+    server: https://kubernetes.default.svc
+  project: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+  source:
+    repoURL: "{{ .Values.global.repositories.cert_manager }}"
+    chart: "cert-manager"
+    targetRevision: "v1.8.0"
+    helm:
+      releaseName: cert-manager
+      values: |
+        installCRDs: true
