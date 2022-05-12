@@ -1,0 +1,45 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: argocd
+  namespace: "{{ .Values.argocd.namespace }}"
+spec:
+  destination:
+    namespace: "{{ .Values.argocd.namespace }}"
+    server: https://kubernetes.default.svc
+  project: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+  source:
+    repoURL: "{{ .Values.global.repositories.argocd }}"
+    targetRevision: 4.5.0
+    chart: argo-cd
+    helm:
+      releaseName: argocd
+      values: |
+        installCRDs: true
+        configs:
+          secret:
+            createSecret: false
+        global:
+          securityContext:
+            runAsUser: 999
+            runAsGroup: 999
+            fsGroup: 999
+        server:
+          extraArgs:
+            - --insecure
+            - --rootpath
+            - /argocd
+          ingress:
+            ingressClassName: nginx
+            enabled: true
+            paths:
+              - /argocd
+            hosts:
+              - "tools.{{ .Values.global.dns }}"
+          config:
+            url: "https://tools.{{ .Values.global.dns }}/argocd"

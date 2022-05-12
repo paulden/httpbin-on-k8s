@@ -1,0 +1,16 @@
+global:
+  revision: master
+  dns: toto.com
+  registry:
+    gcr: "gcr.io"
+  repositories:
+    argocd: 'https://argoproj.github.io/argo-helm'
+    nginx: 'https://kubernetes.github.io/ingress-nginx'
+
+argocd:
+  namespace: argocd
+
+ingress:
+  namespace: ingress-nginx
+  service:
+    type: ClusterIP

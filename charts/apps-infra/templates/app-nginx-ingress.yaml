@@ -1,0 +1,47 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: ingress-nginx
+  namespace: "{{ .Values.argocd.namespace }}"
+  annotations:
+    argocd.argoproj.io/sync-wave: "-1"
+  finalizers:
+  - resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    namespace: "{{ .Values.ingress.namespace }}"
+    server: https://kubernetes.default.svc
+  project: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+  source:
+    repoURL: "{{ .Values.global.repositories.nginx }}"
+    chart: ingress-nginx
+    targetRevision: 4.0.18
+    helm:
+      releaseName: ingress-nginx
+      values: |
+        controller:
+          ingressClassResource:
+            controllerValue: "k8s.io/ingress-nginx"
+            name: nginx
+            default: true
+          replicaCount: 2
+          config:
+            use-proxy-protocol: "true"
+          service:
+            annotations:
+              service.beta.kubernetes.io/scw-loadbalancer-proxy-protocol-v2: true
+              service.beta.kubernetes.io/scw-loadbalancer-use-hostname: 'true'
+            {{- toYaml .Values.ingress.service | nindent 12 }}
+          admissionWebhooks:
+            enabled: false
+        defaultBackend:
+          enabled: true
+          image:
+            repository: "{{ .Values.global.registry.gcr }}/google-containers/defaultbackend-amd64"
+        podSecurityPolicy:
+          enabled: true
