@@ -35,11 +35,17 @@ spec:
             - --rootpath
             - /argocd
           ingress:
+            annotations:
+              cert-manager.io/cluster-issuer: "letsencrypt-prod"
             ingressClassName: nginx
             enabled: true
             paths:
               - /argocd
             hosts:
-              - "tools.{{ .Values.global.dns }}"
+              - "tooling.{{ .Values.global.dns }}"
+            tls:
+              - hosts:
+                  - "tooling.{{ .Values.global.dns }}"
+                secretName: tooling-tls
           config:
-            url: "https://tools.{{ .Values.global.dns }}/argocd"
+            url: "https://tooling.{{ .Values.global.dns }}/argocd"
