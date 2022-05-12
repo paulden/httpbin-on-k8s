@@ -1,0 +1,36 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: apps-infra
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "-1"
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    namespace: argocd
+    server: https://kubernetes.default.svc
+  project: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+  source:
+    repoURL: "https://github.com/paulden/httpbin-on-k8s.git"
+    path: "charts/apps-infra/"
+    targetRevision: master
+    helm:
+      values: |
+        global:
+          revision: master
+          dns: 195-154-70-233.nip.io
+        ingress:
+          service:
+            nodePorts:
+              http: "31080"
+              https: "31443"
+            loadBalancerIP: "195.154.70.233"
+            externalTrafficPolicy: Local
+            type: LoadBalancer
