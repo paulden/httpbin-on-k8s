@@ -1,0 +1,22 @@
+{{- if .Values.ingress.enabled }}
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ template "httpbin.fullname" . }}
+  labels:
+    app: {{ template "httpbin.fullname" . }}
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: "{{ .Values.ingress.host }}"
+      http:
+        paths:
+          - path: "/"
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: {{ template "httpbin.fullname" . }}
+                port:
+                  name: http
+{{- end }}
