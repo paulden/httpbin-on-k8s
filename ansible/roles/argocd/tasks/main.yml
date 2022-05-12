@@ -1,0 +1,55 @@
+---
+- name: Create ArgoCD namespace
+  k8s:
+    definition: "{{ lookup('template', 'namespace.yml') }}"
+  vars:
+    namespace_name: "{{ argocd_namespace }}"
+
+- name: Create secret for Github
+  changed_when: false
+  k8s:
+    definition: "{{ lookup('template', 'secret-github.yml') }}"
+
+- name: Check if ArgoCD is installed
+  community.kubernetes.helm_info:
+    name: argocd
+    namespace: "{{ argocd_namespace }}"
+  register: argocd_helm_status
+
+- name: Add ArgoCD repository
+  community.kubernetes.helm_repository:
+    name: argo
+    repo_url: "{{ argo_helm_repo }}"
+  changed_when: false
+  when: argocd_helm_status.status is undefined
+
+- name: Install ArgoCD using Helm
+  community.kubernetes.helm:
+    name: argocd
+    chart_ref: argo/argo-cd
+    chart_version: 4.5.0
+    namespace: "{{ argocd_namespace }}"
+    wait: true
+    values:
+      installCRDs: false
+      configs:
+        secret:
+          annotations:
+            "sealedsecrets.bitnami.com/managed": true
+          argocdServerAdminPassword: "{{ argocd_admin_password_b64 | b64decode }}"
+          argocdServerAdminPasswordMtime: "{{ ansible_date_time.iso8601 }}"
+      global:
+        securityContext:
+          runAsUser: 999
+          runAsGroup: 999
+          fsGroup: 999
+      server:
+        extraArgs:
+          - --insecure
+      dex:
+        enabled: false
+  when: argocd_helm_status.status is undefined
+
+- name: Create ArgoCD apps-all application
+  k8s:
+    definition: "{{ lookup('template', 'apps-all.yml') }}"

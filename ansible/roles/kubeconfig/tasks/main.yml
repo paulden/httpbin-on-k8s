@@ -1,0 +1,41 @@
+---
+- name: Create directory
+  file:
+    path: "{{ kubeconfig_path | dirname }}"
+    state: directory
+    recurse: yes
+  changed_when: false
+
+- name: Remove old KUBECONFIG file
+  file:
+    path: "{{ kubeconfig_path }}"
+    state: absent
+  check_mode: no
+  changed_when: false
+
+- name: Get KUBECONFIG from AWS
+  shell: "aws --region eu-west-3 --profile {{ aws_profile }} eks update-kubeconfig --name {{ cluster_name }}"
+  check_mode: no
+  changed_when: false
+  when: aws | default(false)
+
+- name: Get KUBECONFIG from Scaleway
+  block:
+    - name: Get Kapsule cluster information
+      check_mode: no
+      changed_when: false
+      shell: "scw --profile={{ scaleway_profile }} k8s cluster list name={{ cluster_name }} -o json | jq '.[0].id'"
+      register: scw_k8s_cluster_id
+
+    - name: Create KUBECONFIG from Scaleway
+      check_mode: no
+      shell: "scw --profile={{ scaleway_profile }} k8s kubeconfig get {{ scw_k8s_cluster_id.stdout }} > {{ kubeconfig_path }}"
+      changed_when: false
+
+  when: scaleway | default(false)
+
+- name: Default to local KUBECONFIG
+  copy:
+    src: "~/.kube/config"
+    dest: "{{ kubeconfig_path }}"
+  when: not scaleway and not aws

@@ -1,0 +1,3 @@
+---
+argocd_namespace: argocd
+argo_helm_repo: "https://argoproj.github.io/argo-helm"

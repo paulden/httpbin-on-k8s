@@ -1,0 +1,4 @@
+---
+cluster_name: "minikube"
+kubeconfig_path: "/tmp/kubeconfig-{{ cluster_name }}"
+scaleway: false

@@ -1,0 +1,5 @@
+---
+aws: true
+aws_profile: forge
+cluster_name: pade-eks
+environment_name: aws-dev

@@ -1,0 +1,5 @@
+---
+scaleway: true
+scaleway_profile: pade
+cluster_name: kapsule-pade
+environment_name: scw-dev

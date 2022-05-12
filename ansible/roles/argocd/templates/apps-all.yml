@@ -1,0 +1,21 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: apps-all
+  namespace: "{{ argocd_namespace }}"
+  labels:
+    managed-by: ansible
+spec:
+  destination:
+    namespace: "{{ argocd_namespace }}"
+    server: https://kubernetes.default.svc
+  project: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+  source:
+    path: "environments/{{ environment_name }}/"
+    repoURL: https://github.com/paulden/httpbin-on-k8s.git
+    targetRevision: "{{ argo_revision }}"

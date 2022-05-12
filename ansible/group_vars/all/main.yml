@@ -1,0 +1,7 @@
+---
+argo_revision: master
+
+argocd_admin_password_b64: "{{ vault_argocd_admin_password_b64 }}"
+argocd_github_secret_name: argocd-github
+argocd_github_token_user: argocd
+argocd_github_token_password: "{{ vault_github_token }}"

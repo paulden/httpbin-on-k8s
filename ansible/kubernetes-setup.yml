@@ -1,0 +1,10 @@
+---
+- hosts: localhost
+  become: no
+  environment:
+    KUBECONFIG: "{{ kubeconfig_path }}"
+  roles:
+    - name: kubeconfig
+      tags: kubeconfig
+    - name: argocd
+      tags: argocd
