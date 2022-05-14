@@ -1,0 +1,30 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: httpbin-env2
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    namespace: argocd
+    server: https://kubernetes.default.svc
+  project: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+  source:
+    repoURL: "https://github.com/paulden/httpbin-on-k8s.git"
+    path: "charts/httpbin"
+    targetRevision: master
+    helm:
+      values: |
+        ingress:
+          enabled: true
+          host: env2.wttj.pauldn.xyz
+        hpa:
+          enabled: true
+          minReplicaCount: 3
+          maxReplicaCount: 15
