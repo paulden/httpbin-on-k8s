@@ -1,5 +1,5 @@
 ---
 scaleway: true
-scaleway_profile: pade
-cluster_name: kapsule-pade
+scaleway_profile: pauldn
+cluster_name: kapsule-pauldn
 environment_name: scw-dev

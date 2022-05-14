@@ -20,6 +20,11 @@ variable "name" {
   description = "Name of the environment"
 }
 
+variable "dns" {
+  type = string
+  description = "Domain where DNS zone and records should be created"
+}
+
 ## Kubernetes and Kapsule general specs
 
 variable "kubernetes_version" {
