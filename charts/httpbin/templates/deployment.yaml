@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ template "httpbin.fullname" . }}
-  namespace: {{ .Values.namespace }}
+  namespace: {{ template "httpbin.fullname" . }}
   labels:
     app: {{ template "httpbin.name" . }}
     chart: {{ template "httpbin.chart" . }}

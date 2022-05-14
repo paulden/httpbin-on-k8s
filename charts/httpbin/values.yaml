@@ -5,7 +5,6 @@
 replicaCount: 3
 nameOverride: ""
 fullnameOverride: ""
-namespace: httpbin
 
 image:
   repository: kennethreitz/httpbin

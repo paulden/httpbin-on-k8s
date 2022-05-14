@@ -4,7 +4,7 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: {{ template "httpbin.fullname" . }}
-  namespace: {{ .Values.namespace }}
+  namespace: {{ template "httpbin.fullname" . }}
   annotations:
     cert-manager.io/cluster-issuer: "letsencrypt-prod"
   labels:
