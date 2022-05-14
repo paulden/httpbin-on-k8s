@@ -10,6 +10,9 @@ A Helm chart to deploy httpbin
 |-----|------|---------|-------------|
 | affinity | object | `{}` |  |
 | fullnameOverride | string | `""` |  |
+| hpa.enabled | bool | `false` |  |
+| hpa.maxReplicaCount | int | `10` |  |
+| hpa.minReplicaCount | int | `3` |  |
 | image.pullPolicy | string | `"IfNotPresent"` |  |
 | image.repository | string | `"kennethreitz/httpbin"` |  |
 | image.tag | string | `"latest"` |  |
@@ -22,7 +25,6 @@ A Helm chart to deploy httpbin
 | namespace | string | `"httpbin"` |  |
 | nodeSelector | object | `{}` |  |
 | replicaCount | int | `3` |  |
-| resources.limits.cpu | string | `"100m"` |  |
 | resources.limits.memory | string | `"128Mi"` |  |
 | resources.requests.cpu | string | `"100m"` |  |
 | resources.requests.memory | string | `"128Mi"` |  |

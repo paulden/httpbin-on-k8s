@@ -24,3 +24,7 @@ spec:
         ingress:
           enabled: true
           host: env1.wttj.pauldn.xyz
+        hpa:
+          enabled: true
+          minReplicaCount: 3
+          maxReplicaCount: 15
