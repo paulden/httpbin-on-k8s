@@ -1,0 +1,21 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: cert-manager-configuration
+  namespace: "{{ .Values.argocd.namespace }}"
+  finalizers:
+  - resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    namespace: "{{ .Values.cert_manager.namespace }}"
+    server: https://kubernetes.default.svc
+  project: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+  source:
+    repoURL: "https://github.com/paulden/httpbin-on-k8s.git"
+    path: "charts/cert-manager-configuration/"
+    targetRevision: {{ .Values.global.revision }}

@@ -1,0 +1,7 @@
+---
+apiVersion: v2
+name: cert-manager-configuration
+description: >
+  Helm chart configuring cluster issuers for cert-manager.
+type: application
+version: 0.1.0

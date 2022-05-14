@@ -19,6 +19,7 @@ A Helm chart to deploy httpbin
 | ingress.path | string | `"/"` |  |
 | ingress.tls | list | `[]` |  |
 | nameOverride | string | `""` |  |
+| namespace | string | `"httpbin"` |  |
 | nodeSelector | object | `{}` |  |
 | replicaCount | int | `3` |  |
 | resources.limits.cpu | string | `"100m"` |  |
